@@ -33,7 +33,9 @@ include $(BUILD_SHARED_LIBRARY)
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := anjarootinstaller
-LOCAL_SRC_FILES := installer/installer.cpp
+LOCAL_SRC_FILES := installer/installer.cpp \
+				   installer/operations.cpp \
+				   util.cpp
 LOCAL_LDLIBS := -llog
 LOCAL_CPP_INCLUDES := $(LOCAL_PATH)
 LOCAL_CPP_FEATURES := exceptions
