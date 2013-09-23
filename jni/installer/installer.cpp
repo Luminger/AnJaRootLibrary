@@ -63,6 +63,17 @@
  *    check for root or any elected state, we just do our business.
  */
 
+#include <getopt.h>
+
+const char* shortopts = "s:icu";
+const struct option longopts[] = {
+    {"srclibpath", required_argument, 0, 's'},
+    {"install", no_argument, 0, 'i'},
+    {"checkinstall", no_argument, 0, 'c'},
+    {"uninstall", no_argument, 0, 'u'},
+    {0, 0, 0, 0},
+};
+
 int main(int argc, char** argv)
 {
     return 0;

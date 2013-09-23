@@ -17,6 +17,7 @@
  * AnJaRoot. If not, see http://www.gnu.org/licenses/.
  */
 
+#include <fstream>
 #include <system_error>
 #include <errno.h>
 #include <sys/stat.h>
@@ -40,6 +41,12 @@ void move(const std::string& src, const std::string& dst)
 
 void copy(const std::string& src, const std::string& dst)
 {
+    util::logVerbose("Op: copy '%s' to '%s'", src.c_str(), dst.c_str());
+
+    std::ifstream srcStream(src, std::ios::binary);
+    std::ofstream dstStream(src, std::ios::binary | std::ios::trunc);
+
+    dstStream << srcStream.rdbuf();
 }
 
 void stat(const std::string& target, struct stat& out)
