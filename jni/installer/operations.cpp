@@ -49,6 +49,18 @@ void copy(const std::string& src, const std::string& dst)
     dstStream << srcStream.rdbuf();
 }
 
+void unlink(const std::string& target)
+{
+    util::logVerbose("Op: unlink '%s'", target.c_str());
+
+    int ret = ::unlink(target.c_str());
+    if(ret == -1)
+    {
+        util::logError("Op: unlink failed: %s", strerror(errno));
+        throw std::system_error(errno, std::system_category());
+    }
+}
+
 void stat(const std::string& target, struct stat& out)
 {
     util::logVerbose("Op: stat on '%s'", target.c_str());

@@ -17,20 +17,21 @@
  * AnJaRoot. If not, see http://www.gnu.org/licenses/.
  */
 
-#ifndef _ANJAROOT_INSTALLER_OPERATIONS_H
-#define _ANJAROOT_INSTALLER_OPERATIONS_H
+#ifndef _ANJAROOT_INSTALLER_H
+#define _ANJAROOT_INSTALLER_H
 
 #include <string>
-#include <sys/types.h>
+#include <utility>
 
-namespace operations {
-    void move(const std::string& src, const std::string& dst);
-    void copy(const std::string& src, const std::string& dst);
-    void unlink(const std::string& src);
-    void stat(const std::string& target, struct stat& out);
-    void chown(const std::string& target, uid_t uid, gid_t gid);
-    void chmod(const std::string& target, mode_t mode);
-    void sync();
-}
+
+enum OperationMode {
+    InvalidMode = 0,
+    InstallMode = 1,
+    UninstallMode = 2,
+    CheckMode = 3,
+    HelpMode = 4
+};
+
+typedef std::pair<std::string, OperationMode> ModeSpec;
 
 #endif

@@ -63,18 +63,74 @@
  *    check for root or any elected state, we just do our business.
  */
 
+#include <iostream>
 #include <getopt.h>
+#include <stdlib.h>
+#include "installer.h"
+#include "util.h"
 
-const char* shortopts = "s:icu";
+const char* shortopts = "s:icuh";
 const struct option longopts[] = {
-    {"srclibpath", required_argument, 0, 's'},
-    {"install", no_argument, 0, 'i'},
-    {"checkinstall", no_argument, 0, 'c'},
-    {"uninstall", no_argument, 0, 'u'},
+    {"srclibpath",   required_argument, 0, 's'},
+    {"install",      no_argument,       0, 'i'},
+    {"checkinstall", no_argument,       0, 'c'},
+    {"uninstall",    no_argument,       0, 'u'},
+    {"help",         no_argument,       0, 'h'},
     {0, 0, 0, 0},
 };
 
+
+ModeSpec processArguments(int argc, char** argv)
+{
+    std::string sourcelib;
+    OperationMode mode = InvalidMode;
+
+    int c, option_index = 0;
+    while(c != -1)
+    {
+        c = getopt_long (argc, argv, shortopts, longopts, &option_index);
+        switch(c)
+        {
+            case 's':
+                util::logVerbose("Opt: -s set to '%s'", optarg);
+                sourcelib = optarg;
+                break;
+            case 'i':
+                util::logVerbose("Opt: -i");
+                mode = InstallMode;
+                break;
+            case 'c':
+                util::logVerbose("Opt: -c");
+                mode = CheckMode;
+                break;
+            case 'u':
+                util::logVerbose("Opt: -u");
+                mode = UninstallMode;
+                break;
+            case 'h':
+            default:
+                return std::make_pair("", HelpMode);
+        }
+    }
+
+    return std::make_pair(sourcelib, mode);
+}
+
 int main(int argc, char** argv)
 {
+    ModeSpec spec = processArguments(argc, argv);
+    if(spec.second == HelpMode)
+    {
+        std::cout << "Usage: " << argv[0] << " [OPTIONS] [MODE]" << std::endl;
+        std::cout << std::endl << "Valid Options:" << std::endl;
+        std::cout << "\t-h, --help\t\t\tprint this usage message" << std::endl;
+        std::cout << "\t-s, --srclibpath [PATH] \tset source lib path" << std::endl;
+        std::cout << std::endl << "Valid Modes:" << std::endl;
+        std::cout << "\t-i\t\t\t\tdo install (needs -s to be set)" << std::endl;
+        std::cout << "\t-u\t\t\t\tdo uninstall" << std::endl;
+        std::cout << "\t-c\t\t\t\tdo an installation ckeck" << std::endl;
+        return -1;
+    }
+
     return 0;
 }
