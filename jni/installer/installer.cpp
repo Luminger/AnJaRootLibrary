@@ -116,21 +116,43 @@ ModeSpec processArguments(int argc, char** argv)
     return std::make_pair(sourcelib, mode);
 }
 
+void printUsage(const char* progname)
+{
+    std::cerr << "Usage: " << progname << " [OPTIONS] [MODE]" << std::endl;
+    std::cerr << std::endl << "Valid Options:" << std::endl;
+    std::cerr << "\t-h, --help\t\t\tprint this usage message" << std::endl;
+    std::cerr << "\t-s, --srclibpath [PATH] \tset source lib path" << std::endl;
+    std::cerr << std::endl << "Valid Modes:" << std::endl;
+    std::cerr << "\t-i\t\t\t\tdo install (needs -s to be set)" << std::endl;
+    std::cerr << "\t-u\t\t\t\tdo uninstall" << std::endl;
+    std::cerr << "\t-c\t\t\t\tdo an installation ckeck" << std::endl;
+}
+
 int main(int argc, char** argv)
 {
+    util::logVerbose("Installer started");
+
     ModeSpec spec = processArguments(argc, argv);
     if(spec.second == HelpMode)
     {
-        std::cout << "Usage: " << argv[0] << " [OPTIONS] [MODE]" << std::endl;
-        std::cout << std::endl << "Valid Options:" << std::endl;
-        std::cout << "\t-h, --help\t\t\tprint this usage message" << std::endl;
-        std::cout << "\t-s, --srclibpath [PATH] \tset source lib path" << std::endl;
-        std::cout << std::endl << "Valid Modes:" << std::endl;
-        std::cout << "\t-i\t\t\t\tdo install (needs -s to be set)" << std::endl;
-        std::cout << "\t-u\t\t\t\tdo uninstall" << std::endl;
-        std::cout << "\t-c\t\t\t\tdo an installation ckeck" << std::endl;
+        printUsage(argv[0]);
+        util::logError("Called with wrong/insufficient arguments");
         return -1;
     }
 
+    if(spec.second == InstallMode)
+    {
+        util::logVerbose("Running install mode");
+    }
+    else if(spec.second == UninstallMode)
+    {
+        util::logVerbose("Running uninstall mode");
+    }
+    else if(spec.second == CheckMode)
+    {
+        util::logVerbose("Running check mode");
+    }
+
+    util::logVerbose("Installer finished");
     return 0;
 }
