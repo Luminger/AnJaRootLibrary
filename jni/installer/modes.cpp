@@ -17,21 +17,29 @@
  * AnJaRoot. If not, see http://www.gnu.org/licenses/.
  */
 
-#ifndef _ANJAROOT_INSTALLER_H
-#define _ANJAROOT_INSTALLER_H
+#include <fstream>
 
-#include <string>
-#include <utility>
+#include "modes.h"
+#include "hash.h"
+#include "operations.h"
+#include "util.h"
 
-enum OperationMode {
-    InvalidMode,
-    InstallMode,
-    UninstallMode,
-    CheckMode,
-    RepairMode,
-    HelpMode
-};
+namespace modes {
 
-typedef std::pair<std::string, OperationMode> ModeSpec;
+void install(const std::string& libpath)
+{
+}
 
-#endif
+void uninstall()
+{
+}
+
+void repair()
+{
+}
+
+void check()
+{
+}
+
+}

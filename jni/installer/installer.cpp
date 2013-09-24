@@ -66,15 +66,18 @@
 #include <iostream>
 #include <getopt.h>
 #include <stdlib.h>
+
 #include "installer.h"
+#include "modes.h"
 #include "util.h"
 
-const char* shortopts = "s:icuh";
+const char* shortopts = "s:icurh";
 const struct option longopts[] = {
     {"srclibpath",   required_argument, 0, 's'},
     {"install",      no_argument,       0, 'i'},
-    {"checkinstall", no_argument,       0, 'c'},
+    {"check",        no_argument,       0, 'c'},
     {"uninstall",    no_argument,       0, 'u'},
+    {"repair",       no_argument,       0, 'r'},
     {"help",         no_argument,       0, 'h'},
     {0, 0, 0, 0},
 };
@@ -86,9 +89,14 @@ ModeSpec processArguments(int argc, char** argv)
     OperationMode mode = InvalidMode;
 
     int c, option_index = 0;
-    while(c != -1)
+    while(true)
     {
         c = getopt_long (argc, argv, shortopts, longopts, &option_index);
+        if(c == -1)
+        {
+            break;
+        }
+
         switch(c)
         {
             case 's':
@@ -107,6 +115,10 @@ ModeSpec processArguments(int argc, char** argv)
                 util::logVerbose("Opt: -u");
                 mode = UninstallMode;
                 break;
+            case 'r':
+                util::logVerbose("opt: -r");
+                mode = RepairMode;
+                break;
             case 'h':
             default:
                 return std::make_pair("", HelpMode);
@@ -123,9 +135,10 @@ void printUsage(const char* progname)
     std::cerr << "\t-h, --help\t\t\tprint this usage message" << std::endl;
     std::cerr << "\t-s, --srclibpath [PATH] \tset source lib path" << std::endl;
     std::cerr << std::endl << "Valid Modes:" << std::endl;
-    std::cerr << "\t-i\t\t\t\tdo install (needs -s to be set)" << std::endl;
-    std::cerr << "\t-u\t\t\t\tdo uninstall" << std::endl;
-    std::cerr << "\t-c\t\t\t\tdo an installation ckeck" << std::endl;
+    std::cerr << "\t-i, --install\t\t\tdo install (needs -s to be set)" << std::endl;
+    std::cerr << "\t-u, --uninstall\t\t\tdo uninstall" << std::endl;
+    std::cerr << "\t-r, --repair\t\t\tdo repair" << std::endl;
+    std::cerr << "\t-c, --check\t\t\tdo an installation ckeck" << std::endl;
 }
 
 int main(int argc, char** argv)
@@ -140,17 +153,34 @@ int main(int argc, char** argv)
         return -1;
     }
 
-    if(spec.second == InstallMode)
+    try
     {
-        util::logVerbose("Running install mode");
+        if(spec.second == InstallMode)
+        {
+            util::logVerbose("Running install mode");
+            modes::install(spec.first);
+        }
+        else if(spec.second == UninstallMode)
+        {
+            util::logVerbose("Running uninstall mode");
+            modes::uninstall();
+        }
+        else if(spec.second == CheckMode)
+        {
+            util::logVerbose("Running check mode");
+            modes::check();
+        }
+        else if(spec.second == RepairMode)
+        {
+            util::logVerbose("Running repair mode");
+            modes::repair();
+        }
     }
-    else if(spec.second == UninstallMode)
+    catch(std::exception& e)
     {
-        util::logVerbose("Running uninstall mode");
-    }
-    else if(spec.second == CheckMode)
-    {
-        util::logVerbose("Running check mode");
+        // TODO log a stacktrace (with backtrace from <execinfo.h>?)
+        util::logError("Failed while executing mode: %s", e.what());
+        return -1;
     }
 
     util::logVerbose("Installer finished");

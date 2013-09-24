@@ -17,21 +17,32 @@
  * AnJaRoot. If not, see http://www.gnu.org/licenses/.
  */
 
-#ifndef _ANJAROOT_INSTALLER_H
-#define _ANJAROOT_INSTALLER_H
+#ifndef _ANJAROOT_INSTALLER_HASH_H_
+#define _ANJAROOT_INSTALLER_HASH_H_
 
+#include <istream>
 #include <string>
-#include <utility>
+#include <zlib.h>
 
-enum OperationMode {
-    InvalidMode,
-    InstallMode,
-    UninstallMode,
-    CheckMode,
-    RepairMode,
-    HelpMode
-};
+namespace hash {
+    class CRC32 {
+        public:
+            CRC32();
+            CRC32(std::istream& in);
 
-typedef std::pair<std::string, OperationMode> ModeSpec;
+            void reset();
+            void add(std::istream& in);
+            std::string getString() const;
+
+
+        private:
+            void initialize();
+
+            static const size_t BufferSize = 128; // That's a wild guess,
+                                                  // but should work for now
+
+            uLong crc;
+    };
+}
 
 #endif

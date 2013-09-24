@@ -20,6 +20,7 @@
 #ifndef _ANJAROOT_INSTALLER_OPERATIONS_H
 #define _ANJAROOT_INSTALLER_OPERATIONS_H
 
+#include <istream>
 #include <string>
 #include <sys/types.h>
 

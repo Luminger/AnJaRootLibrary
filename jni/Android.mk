@@ -35,8 +35,10 @@ include $(CLEAR_VARS)
 LOCAL_MODULE := anjarootinstaller
 LOCAL_SRC_FILES := installer/installer.cpp \
 				   installer/operations.cpp \
+				   installer/hash.cpp \
+				   installer/modes.cpp \
 				   util.cpp
-LOCAL_LDLIBS := -llog
+LOCAL_LDLIBS := -llog -lz
 LOCAL_CPP_INCLUDES := $(LOCAL_PATH)
 LOCAL_CPP_FEATURES := exceptions
 LOCAL_CPPFLAGS := -DANJAROOT_LOGTAG="\"$(ANJAROOTINSTALLER_LOGTAG)\"" \
