@@ -30,7 +30,10 @@ class NativeMethods {
 		// problems as we already have injected the library via LD_PRELOAD and a possible
 		// newer variant shipped with a program will never get called. Maybe the libraries
 		// should be splitted.
-		System.loadLibrary("anjaroot");
+		
+		// TODO My idea is to load it directly into the app_process load, I just have to figure out
+		//      how to bind this native methods here...
+		// System.loadLibrary("anjaroot");
 	}
 
 	public native static long[] capget(int pid) throws NativeException, PermissionsException;
