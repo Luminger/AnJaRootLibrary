@@ -64,12 +64,12 @@ void CRC32::add(std::istream& in)
     in.seekg(oldpos, in.beg);
 }
 
-std::string CRC32::getString() const
+std::string CRC32::toString() const
 {
     // yea, that's not "optimal", but everybody should get what I'm doing
     // here. I don't want to overengineer the simple stuff...
     std::stringstream ss;
-    ss << std::ios::hex << crc;
+    ss << crc;
     return ss.str();
 }
 

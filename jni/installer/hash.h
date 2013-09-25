@@ -32,7 +32,7 @@ namespace hash {
 
             void reset();
             void add(std::istream& in);
-            std::string getString() const;
+            std::string toString() const;
 
 
         private:
