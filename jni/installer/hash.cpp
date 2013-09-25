@@ -53,13 +53,12 @@ void CRC32::add(std::istream& in)
     char buf[BufferSize];
 
     std::streamsize read = 0;
-    do
+    while((read = in.readsome(buf, sizeof(buf))))
     {
-        read = in.readsome(buf, sizeof(buf));
         // Bwah... this cast is stupid... Anyway, a unsigned char (aka Bytef)
         // is not that far away from char...
         crc = crc32(crc, reinterpret_cast<Bytef*>(&buf), read);
-    } while(read != 0);
+    }
 
     // reset stream position
     in.seekg(oldpos, in.beg);

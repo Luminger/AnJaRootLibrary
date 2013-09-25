@@ -38,7 +38,7 @@ namespace hash {
         private:
             void initialize();
 
-            static const size_t BufferSize = 128; // That's a wild guess,
+            static const size_t BufferSize = 256; // That's a wild guess,
                                                   // but should work for now
 
             uLong crc;
