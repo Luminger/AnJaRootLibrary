@@ -66,8 +66,6 @@ void CRC32::add(std::istream& in)
 
 std::string CRC32::toString() const
 {
-    // yea, that's not "optimal", but everybody should get what I'm doing
-    // here. I don't want to overengineer the simple stuff...
     std::stringstream ss;
     ss << crc;
     return ss.str();
