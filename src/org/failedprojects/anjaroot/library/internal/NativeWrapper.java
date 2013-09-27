@@ -17,6 +17,7 @@ package org.failedprojects.anjaroot.library.internal;
 import org.failedprojects.anjaroot.library.containers.Capabilities;
 import org.failedprojects.anjaroot.library.containers.GroupIds;
 import org.failedprojects.anjaroot.library.containers.UserIds;
+import org.failedprojects.anjaroot.library.containers.Version;
 import org.failedprojects.anjaroot.library.exceptions.NativeException;
 import org.failedprojects.anjaroot.library.exceptions.OutOfBoundsException;
 import org.failedprojects.anjaroot.library.exceptions.PermissionsException;
@@ -47,5 +48,11 @@ public class NativeWrapper {
 	
 	public static void setGroupIds(GroupIds gids) throws NativeException, PermissionsException, OutOfBoundsException {
 		NativeMethods.setresgid(gids.getReal(), gids.getEffective(), gids.getSaved());
+	}
+	
+	public static Version getVersion()
+	{
+		int[] version = NativeMethods.getversion();
+		return new Version(version[0], version[1], version[2]);
 	}
 }

@@ -29,7 +29,7 @@ class NativeMethods {
 		
 		// TODO My idea is to load it directly into the app_process load, I just have to figure out
 		//      how to bind this native methods here...
-		// System.loadLibrary("anjaroot");
+		System.loadLibrary("anjaroot");
 	}
 
 	public native static long[] capget(int pid) throws NativeException, PermissionsException;
@@ -38,4 +38,5 @@ class NativeMethods {
 	public native static void setresuid(long ruid, long euid, long suid) throws NativeException, PermissionsException, OutOfBoundsException;
 	public native static long[] getresgid() throws NativeException;
 	public native static void setresgid(long rgid, long egid, long sgid) throws NativeException, PermissionsException, OutOfBoundsException;
+	public native static int[] getversion();
 }
