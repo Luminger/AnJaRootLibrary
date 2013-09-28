@@ -39,4 +39,5 @@ class NativeMethods {
 	public native static long[] getresgid() throws NativeException;
 	public native static void setresgid(long rgid, long egid, long sgid) throws NativeException, PermissionsException, OutOfBoundsException;
 	public native static int[] getversion();
+	public native static boolean[] getstatus();
 }
