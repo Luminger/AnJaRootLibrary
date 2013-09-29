@@ -12,28 +12,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.failedprojects.anjaroot.library.containers;
+package org.failedprojects.anjaroot.library.exceptions;
 
-public class Status {
-	private final boolean hooked;
-	private final boolean alreadyRun;
-	private final boolean granted;
+public class LibraryNotLoadedException extends Exception {
 
-	public Status(boolean hooked, boolean alreadyRun, boolean granted) {
-		this.hooked = hooked;
-		this.alreadyRun = alreadyRun;
-		this.granted = granted;
-	}
+	private static final long serialVersionUID = -8618891193291966124L;
 
-	public boolean isHooked() {
-		return hooked;
-	}
-
-	public boolean isAlreadyRun() {
-		return alreadyRun;
-	}
-
-	public boolean isGranted() {
-		return granted;
+	public LibraryNotLoadedException() {
+		super();
 	}
 }

@@ -17,20 +17,22 @@ package org.failedprojects.anjaroot.library.containers;
 import android.annotation.SuppressLint;
 
 public class Version {
-	private int major;
-	private int minor;
-	private int patch;
+	private final int major;
+	private final int minor;
+	private final int patch;
+	private final int apilvl;
 
-	public Version(int major, int minor, int patch) {
+	public Version(int major, int minor, int patch, int apilvl) {
 		this.major = major;
 		this.minor = minor;
 		this.patch = patch;
+		this.apilvl = apilvl;
 	}
-	
+
 	@Override
 	@SuppressLint("DefaultLocale")
 	public String toString() {
-		return String.format("%d.%d.%d", major, minor, patch);
+		return String.format("%d.%d.%d-%d", major, minor, patch, apilvl);
 	}
 
 	public int getMajor() {
@@ -44,5 +46,8 @@ public class Version {
 	public int getPatch() {
 		return patch;
 	}
-	
+
+	public int getApiLevel() {
+		return apilvl;
+	}
 }

@@ -23,43 +23,52 @@ import org.failedprojects.anjaroot.library.exceptions.NativeException;
 import org.failedprojects.anjaroot.library.exceptions.OutOfBoundsException;
 import org.failedprojects.anjaroot.library.exceptions.PermissionsException;
 
-public class NativeWrapper {
-	public static Capabilities getCapabilities() throws NativeException, PermissionsException {
+class NativeWrapper {
+	public static Capabilities getCapabilities() throws NativeException,
+			PermissionsException {
 		long[] perms = NativeMethods.capget(0);
 		return new Capabilities(perms[0], perms[1], perms[2]);
 	}
-	
-	public static void setCapabilities(Capabilities caps) throws NativeException, PermissionsException, OutOfBoundsException {
-		NativeMethods.capset(caps.getEffective(), caps.getPermitted(), caps.getInheritable());
+
+	public static void setCapabilities(Capabilities caps)
+			throws NativeException, PermissionsException, OutOfBoundsException {
+		NativeMethods.capset(caps.getEffective(), caps.getPermitted(),
+				caps.getInheritable());
 	}
-	
+
 	public static UserIds getUserIds() throws NativeException {
 		long[] uids = NativeMethods.getresuid();
 		return new UserIds(uids[0], uids[1], uids[2]);
 	}
-	
-	public static void setUserIds(UserIds uids) throws NativeException, PermissionsException, OutOfBoundsException {
-		NativeMethods.setresuid(uids.getReal(), uids.getEffective(), uids.getSaved());
+
+	public static void setUserIds(UserIds uids) throws NativeException,
+			PermissionsException, OutOfBoundsException {
+		NativeMethods.setresuid(uids.getReal(), uids.getEffective(),
+				uids.getSaved());
 	}
-	
+
 	public static GroupIds getGroupIds() throws NativeException {
 		long[] gids = NativeMethods.getresgid();
 		return new GroupIds(gids[0], gids[1], gids[2]);
 	}
-	
-	public static void setGroupIds(GroupIds gids) throws NativeException, PermissionsException, OutOfBoundsException {
-		NativeMethods.setresgid(gids.getReal(), gids.getEffective(), gids.getSaved());
+
+	public static void setGroupIds(GroupIds gids) throws NativeException,
+			PermissionsException, OutOfBoundsException {
+		NativeMethods.setresgid(gids.getReal(), gids.getEffective(),
+				gids.getSaved());
 	}
-	
-	public static Version getVersion()
-	{
+
+	public static Version getVersion() {
 		int[] version = NativeMethods.getversion();
-		return new Version(version[0], version[1], version[2]);
+		return new Version(version[0], version[1], version[2], version[3]);
 	}
-	
-	public static Status getStatus()
-	{
+
+	public static Status getStatus() {
 		boolean[] status = NativeMethods.getstatus();
-		return new Status(status[0], status[1]);
+		return new Status(status[0], status[1], status[2]);
+	}
+
+	public static void setCompatMode(Version libraryVersion) {
+		NativeMethods.setcompatmode(libraryVersion.getApiLevel());
 	}
 }
