@@ -13,6 +13,8 @@ bin/
 gen/
 libs/
 obj/
+docs/
+release/
 
 # Local configuration file (sdk path, etc)
 local.properties
