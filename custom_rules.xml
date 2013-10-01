@@ -2,12 +2,13 @@
 <!-- Many thanks for this to Ilija Matoski for his blogpost!
      Source: http://blog.matoski.com/2013/06/15/using-ant-to-generate-javadoc-for-your-android-project/
 -->
-<project name="custom_rules">
+<project name="custom_rules_anjarootlibrary">
     <xmlproperty file="AndroidManifest.xml" prefix="manifest" collapseAttributes="true"/>
     <property name="version.code" value="${manifest.manifest.android:versionName}"/>
     <property name="release.dir" location="release"/>
     <property name="doc.dir" location="docs"/>
-    <target name="-post-compile">
+    <target name="release" depends="android_rules.release, gendoc"/>
+    <target name="gendoc">
         <javadoc
             access="public"
             destdir="${doc.dir}"
