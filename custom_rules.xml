@@ -4,7 +4,7 @@
 -->
 <project name="custom_rules_anjarootlibrary">
     <xmlproperty file="AndroidManifest.xml" prefix="manifest" collapseAttributes="true"/>
-    <property name="version.code" value="${manifest.manifest.android:versionName}"/>
+    <property name="version.name" value="${manifest.manifest.android:versionName}"/>
     <property name="release.dir" location="release"/>
     <property name="doc.dir" location="docs"/>
     <target name="release" depends="android_rules.release, gendoc"/>
@@ -13,20 +13,19 @@
             access="public"
             destdir="${doc.dir}"
             verbose="on"
-            doctitle="AnJaRootLibrary-${version.code}"
+            doctitle="AnJaRootLibrary-${version.name}"
             classpath="${sdk.dir}/platforms/${target}/android.jar"
             linkoffline="http://d.android.com/reference ${sdk.dir}/docs/reference"
             linksource="true"
             sourcepath="${source.dir};${gen.dir}"
             use="true"
             version="true"/>
-
-        <jar destfile="${release.dir}/AnJaRootLibrary-${version.code}.jar"
+        <jar destfile="${release.dir}/AnJaRootLibrary-${version.name}.jar"
             basedir="bin/classes/" includes="org/**" />
-        <jar destfile="${release.dir}/AnJaRootLibrary-Docs-${version.code}.jar"
+        <jar destfile="${release.dir}/AnJaRootLibrary-Docs-${version.name}.jar"
             basedir="${doc.dir}" compress="{jar.compress}"/>
     </target>
-    <target name="clean" depends="android_rules.clean">
+    <target name="-pre-clean">
         <delete dir="${doc.dir}"/>
         <delete dir="${release.dir}"/>
     </target>
