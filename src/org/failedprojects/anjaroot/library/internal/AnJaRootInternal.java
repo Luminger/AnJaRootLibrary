@@ -54,11 +54,14 @@ public class AnJaRootInternal {
 
 	public boolean isReady() {
 		if (isLibraryLoaded()) {
-			return status.isHooked() && status.isAlreadyRun()
-					&& status.isGranted();
+			return status.isHooked() && status.isAlreadyRun();
 		}
 
 		return false;
+	}
+
+	public boolean isGranted() {
+		return isReady() && status.isGranted();
 	}
 
 	public Version getNativeVersion() throws LibraryNotLoadedException {
