@@ -4,8 +4,8 @@
 -->
 <project name="custom_rules_anjarootlibrary">
     <xmlproperty file="AndroidManifest.xml" prefix="manifest" collapseAttributes="true"/>
-    <property name="version.name" value="${manifest.manifest.android:versionName}"/>
-    <property name="release.dir" location="release"/>
+    <property name="anjaroot.version" value="${manifest.manifest.android:versionName}"/>
+    <property name="anjaroot.release.dir" location="release"/>
     <property name="doc.dir" location="docs"/>
     <target name="release" depends="android_rules.release, gendoc"/>
     <target name="gendoc">
@@ -13,20 +13,20 @@
             access="public"
             destdir="${doc.dir}"
             verbose="on"
-            doctitle="AnJaRootLibrary-${version.name}"
+            doctitle="AnJaRootLibrary-${anjaroot.version}"
             classpath="${sdk.dir}/platforms/${target}/android.jar"
             linkoffline="http://d.android.com/reference ${sdk.dir}/docs/reference"
             linksource="true"
             sourcepath="${source.dir};${gen.dir}"
             use="true"
             version="true"/>
-        <jar destfile="${release.dir}/AnJaRootLibrary-${version.name}.jar"
+        <jar destfile="${anjaroot.release.dir}/AnJaRootLibrary-${anjaroot.version}.jar"
             basedir="bin/classes/" includes="org/**" />
-        <jar destfile="${release.dir}/AnJaRootLibrary-Docs-${version.name}.jar"
+        <jar destfile="${anjaroot.release.dir}/AnJaRootLibrary-Docs-${anjaroot.version}.jar"
             basedir="${doc.dir}" compress="{jar.compress}"/>
     </target>
     <target name="-pre-clean">
         <delete dir="${doc.dir}"/>
-        <delete dir="${release.dir}"/>
+        <delete dir="${anjaroot.release.dir}"/>
     </target>
 </project>
