@@ -1,25 +1,50 @@
-/*
- * Copyright 2013 Simon Brakhane
+/*    Copyright 2013 Simon Brakhane
  *
- * This file is part of AnJaRoot.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * AnJaRoot is free software: you can redistribute it and/or modify it under the
- * terms of the GNU General Public License as published by the Free Software
- * Foundation, either version 3 of the License, or (at your option) any later
- * version.
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- * AnJaRoot is distributed in the hope that it will be useful, but WITHOUT ANY
- * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
- *
- * You should have received a copy of the GNU General Public License along with
- * AnJaRoot. If not, see http://www.gnu.org/licenses/.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.failedprojects.anjaroot;
 
+/**
+ * AnJaRootService exposed Interface
+ *
+ * It's very likely that you will never ever need to mess with this AIDL, it's 
+ * here to be utilized by AnJaRootRequester. But you can obviously use it on your
+ * own if the provided abstraction doesn't fulfill your requirements.
+ */
 interface IAnJaRootService {
-	boolean isRequestGranted();
+	/**
+	 * Request access to AnJaRoot
+	 * 
+	 * Whenever called this method will either wait until the user decides to
+	 * grant the request or denies it or return immediately if access is already
+	 * granted. This method may block for a long time (multiple seconds) as the
+	 * used timeout may trigger so don't call this method from the ui thread as
+	 * it will most likely trigger an ANR.
+	 *
+	 * @return <code>true</code> if the user granted access, otherwise 
+	 *         <code>false</code>
+	 */
 	boolean requestAccess();
+	
+	/**
+	 * Internal AnJaRoot request answer interface
+	 *
+	 * Nothing for users, nobody except AnJaRoot itself is allowed to perform
+	 * this action. It will just return without doing anything when called from
+	 * the outside.
+	 *
+	 * It's used by AnJaRoot to communicate back the users decision whenever a
+	 * request was issued.
+	 */
 	void answerAccessRequest(int uid, boolean granted);
 }
