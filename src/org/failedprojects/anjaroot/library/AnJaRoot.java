@@ -14,13 +14,21 @@
  */
 package org.failedprojects.anjaroot.library;
 
+import org.failedprojects.anjaroot.IAnJaRootService;
 import org.failedprojects.anjaroot.library.containers.GroupIds;
 import org.failedprojects.anjaroot.library.containers.UserIds;
 import org.failedprojects.anjaroot.library.containers.Version;
 import org.failedprojects.anjaroot.library.exceptions.LibraryNotLoadedException;
+import org.failedprojects.anjaroot.library.exceptions.ServiceNotConnectedException;
 import org.failedprojects.anjaroot.library.internal.AnJaRootInternal;
 
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.IBinder;
 import android.os.Process;
+import android.os.RemoteException;
 import android.util.Log;
 
 /**
@@ -58,11 +66,45 @@ import android.util.Log;
  */
 public class AnJaRoot {
 
+	private static final String LOGTAG = "AnJaRootLibrary";
 	private static final UserIds rootUids = new UserIds(0, 0, 0);
 	private static final GroupIds rootGids = new GroupIds(0, 0, 0);
 	private static UserIds originalUids = null;
 	private static GroupIds originalGids = null;
 	private static final AnJaRootInternal internal = new AnJaRootInternal();
+
+	private final Context context;
+	private IAnJaRootService service;
+	private final ServiceConnection serviceConnection = new ServiceConnection() {
+
+		@Override
+		public void onServiceDisconnected(ComponentName name) {
+			Log.v(LOGTAG, "Disconnected from AnJaRootService");
+			service = null;
+		}
+
+		@Override
+		public void onServiceConnected(ComponentName name, IBinder binder) {
+			Log.v(LOGTAG, "Connected to AnJaRootService");
+			service = IAnJaRootService.Stub.asInterface(binder);
+		}
+	};
+
+	/**
+	 * 
+	 * @param context
+	 *            a Context provided by the calling application
+	 * @throws ServiceNotConnectedException
+	 *             if bindService() fails (AnJaRoot may not be installed)
+	 */
+	public AnJaRoot(Context context) throws ServiceNotConnectedException {
+		this.context = context;
+		boolean connected = connectToService();
+
+		if (!connected) {
+			throw new ServiceNotConnectedException();
+		}
+	}
 
 	/**
 	 * Kill the current (linux) process.
@@ -229,7 +271,33 @@ public class AnJaRoot {
 		return true;
 	}
 
-	public static boolean requestAccess() {
+	private boolean connectToService() {
+		if (service == null) {
+			final Intent intent = new Intent(
+					"org.failedprojects.anjaroot.action.REQUEST_ACCESS");
+			return context.bindService(intent, serviceConnection,
+					Context.BIND_AUTO_CREATE);
+		}
+		return true;
+	}
+
+	public boolean isConnectedToService() {
+		connectToService();
+		return service != null;
+	}
+
+	public boolean requestAccess() throws ServiceNotConnectedException {
+		if (service == null) {
+			connectToService();
+			throw new ServiceNotConnectedException();
+		}
+
+		try {
+			return service.requestAccess();
+		} catch (RemoteException e) {
+			Log.e(LOGTAG, "Remote method failed", e);
+		}
+
 		return false;
 	}
 }
