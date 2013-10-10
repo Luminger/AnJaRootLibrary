@@ -20,6 +20,8 @@ package org.failedprojects.anjaroot;
  * It's very likely that you will never ever need to mess with this AIDL, it's 
  * here to be utilized by AnJaRootRequester. But you can obviously use it on your
  * own if the provided abstraction doesn't fulfill your requirements.
+ *
+ * WARNING: Never ever change the order of this functions, neither delete one!
  */
 interface IAnJaRootService {
 	/**
