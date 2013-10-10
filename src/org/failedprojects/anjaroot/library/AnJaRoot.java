@@ -14,21 +14,13 @@
  */
 package org.failedprojects.anjaroot.library;
 
-import org.failedprojects.anjaroot.IAnJaRootService;
 import org.failedprojects.anjaroot.library.containers.GroupIds;
 import org.failedprojects.anjaroot.library.containers.UserIds;
 import org.failedprojects.anjaroot.library.containers.Version;
 import org.failedprojects.anjaroot.library.exceptions.LibraryNotLoadedException;
-import org.failedprojects.anjaroot.library.exceptions.ServiceNotConnectedException;
 import org.failedprojects.anjaroot.library.internal.AnJaRootInternal;
 
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
-import android.os.IBinder;
 import android.os.Process;
-import android.os.RemoteException;
 import android.util.Log;
 
 /**
@@ -45,9 +37,10 @@ import android.util.Log;
  * 
  * If {@link #isAccessGranted()} returned false (access is NOT granted):
  * <ol>
- * <li>{@link #requestAccess() Request access} from AnJaRoot</li>
- * <li>If {@link #isAccessGranted() access is granted} {@link #commitSuicide()
- * kill your current linux process}</li>
+ * <li>Use {@link org.failedprojects.anjaroot.library.AnJaRootRequester} to
+ * request access
+ * <li>If the previous step returned true, {@link #commitSuicide() kill your
+ * current linux process}</li>
  * </ol>
  * 
  * If {@link #isAccessGranted()} returned true:
@@ -72,39 +65,6 @@ public class AnJaRoot {
 	private static UserIds originalUids = null;
 	private static GroupIds originalGids = null;
 	private static final AnJaRootInternal internal = new AnJaRootInternal();
-
-	private final Context context;
-	private IAnJaRootService service;
-	private final ServiceConnection serviceConnection = new ServiceConnection() {
-
-		@Override
-		public void onServiceDisconnected(ComponentName name) {
-			Log.v(LOGTAG, "Disconnected from AnJaRootService");
-			service = null;
-		}
-
-		@Override
-		public void onServiceConnected(ComponentName name, IBinder binder) {
-			Log.v(LOGTAG, "Connected to AnJaRootService");
-			service = IAnJaRootService.Stub.asInterface(binder);
-		}
-	};
-
-	/**
-	 * 
-	 * @param context
-	 *            a Context provided by the calling application
-	 * @throws ServiceNotConnectedException
-	 *             if bindService() fails (AnJaRoot may not be installed)
-	 */
-	public AnJaRoot(Context context) throws ServiceNotConnectedException {
-		this.context = context;
-		boolean connected = connectToService();
-
-		if (!connected) {
-			throw new ServiceNotConnectedException();
-		}
-	}
 
 	/**
 	 * Kill the current (linux) process.
@@ -269,35 +229,5 @@ public class AnJaRoot {
 		}
 
 		return true;
-	}
-
-	private boolean connectToService() {
-		if (service == null) {
-			final Intent intent = new Intent(
-					"org.failedprojects.anjaroot.action.REQUEST_ACCESS");
-			return context.bindService(intent, serviceConnection,
-					Context.BIND_AUTO_CREATE);
-		}
-		return true;
-	}
-
-	public boolean isConnectedToService() {
-		connectToService();
-		return service != null;
-	}
-
-	public boolean requestAccess() throws ServiceNotConnectedException {
-		if (service == null) {
-			connectToService();
-			throw new ServiceNotConnectedException();
-		}
-
-		try {
-			return service.requestAccess();
-		} catch (RemoteException e) {
-			Log.e(LOGTAG, "Remote method failed", e);
-		}
-
-		return false;
 	}
 }
