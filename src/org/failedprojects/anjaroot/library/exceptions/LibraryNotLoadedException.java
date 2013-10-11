@@ -15,7 +15,7 @@
 package org.failedprojects.anjaroot.library.exceptions;
 
 /**
- * Native library not found
+ * Native library not found.
  * 
  * Thrown if AnJaRootLibrary couldn't access the underlying native library which
  * is hooked directly into the zygote process. If you see this exception it

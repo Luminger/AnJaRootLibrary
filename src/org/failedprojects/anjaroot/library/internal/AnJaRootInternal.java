@@ -27,7 +27,7 @@ import org.failedprojects.anjaroot.library.exceptions.PermissionsException;
 import android.util.Log;
 
 /**
- * Exposed internal interface of the AnJaRootLibrary
+ * Exposed internal interface of the AnJaRootLibrary.
  * 
  * This class drives the AnJaRoot high level class. You are free to use it, it
  * will change in a backward compatible way whenever possible. But keep in mind

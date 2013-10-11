@@ -17,7 +17,7 @@ package org.failedprojects.anjaroot.library.containers;
 import android.annotation.SuppressLint;
 
 /**
- * AnJaRoot version information holder
+ * AnJaRoot version information holder.
  * 
  * This class holds version information from either the AnJaRoot Library or it's
  * native counterpart. It's only useful under certain conditions (additional

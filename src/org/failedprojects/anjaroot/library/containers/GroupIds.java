@@ -15,7 +15,7 @@
 package org.failedprojects.anjaroot.library.containers;
 
 /**
- * Linux user gids holder class
+ * Linux user gids holder class.
  * 
  * his class is only useful if you mess with AnJaRootInternal directly.
  * 

@@ -15,7 +15,7 @@
 package org.failedprojects.anjaroot.library.exceptions;
 
 /**
- * Insufficient permissions
+ * Insufficient permissions.
  * 
  * This exception is thrown whenever a native method wasn't able to fulfill a
  * request because the caller had insufficient permissions.

@@ -15,7 +15,7 @@
 package org.failedprojects.anjaroot.library.exceptions;
 
 /**
- * Not connected to AnJaRoots Granting Service
+ * Not connected to AnJaRoots Granting Service.
  * 
  * This exception is thrown whenever the AnJaRootRequester tried to utilize the
  * connection to the Granting Service but wasn't able to do so.

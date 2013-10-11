@@ -15,7 +15,7 @@
 package org.failedprojects.anjaroot.library.containers;
 
 /**
- * Native Status holder class
+ * Native Status holder class.
  * 
  * This class holds information received from the native part of AnJaRoot about
  * the current runtime status.

@@ -15,7 +15,7 @@
 package org.failedprojects.anjaroot.library.containers;
 
 /**
- * Linux capabilities holder class
+ * Linux capabilities holder class.
  * 
  * This class is only useful if you mess with AnJaRootInternal directly.
  * 

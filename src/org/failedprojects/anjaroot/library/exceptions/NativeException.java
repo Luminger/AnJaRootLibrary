@@ -15,7 +15,7 @@
 package org.failedprojects.anjaroot.library.exceptions;
 
 /**
- * Native code syscall error
+ * Native code syscall error.
  * 
  * This exception is thrown by the native AnJaRoot part whenever a syscall
  * failed.

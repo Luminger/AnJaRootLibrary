@@ -15,7 +15,7 @@
 package org.failedprojects.anjaroot.library.exceptions;
 
 /**
- * Passed parameter is our of bounds
+ * Passed parameter is our of bounds.
  * 
  * This exception is thrown whenever a native method detects that a value beyond
  * the bounds is passed to it. It's needed because the native library deals with
