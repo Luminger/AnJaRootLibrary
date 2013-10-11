@@ -16,6 +16,20 @@ package org.failedprojects.anjaroot.library.containers;
 
 import android.annotation.SuppressLint;
 
+/**
+ * AnJaRoot version information holder
+ * 
+ * This class holds version information from either the AnJaRoot Library or it's
+ * native counterpart. It's only useful under certain conditions (additional
+ * compatibility checks or simple version printing).
+ * 
+ * The versioning scheme used by AnJaRoot complies with the Semantic Versioning
+ * 2.0.0. The ApiLevel is constantly increased whenever a "significant" Api
+ * change has been done on the native side.
+ * 
+ * @see <a href="http://semver.org/spec/v2.0.0.html">Semantic Versioning
+ *      2.0.0.</a>
+ */
 public class Version {
 	private final int major;
 	private final int minor;
@@ -29,6 +43,11 @@ public class Version {
 		this.apilvl = apilvl;
 	}
 
+	/**
+	 * Get Version as String for printing
+	 * 
+	 * @return A String with the format Major.Minor.Patch-ApiLevel
+	 */
 	@Override
 	@SuppressLint("DefaultLocale")
 	public String toString() {

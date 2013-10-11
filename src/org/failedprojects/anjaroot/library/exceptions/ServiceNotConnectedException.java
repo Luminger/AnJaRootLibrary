@@ -14,6 +14,19 @@
  */
 package org.failedprojects.anjaroot.library.exceptions;
 
+/**
+ * Not connected to AnJaRoots Granting Service
+ * 
+ * This exception is thrown whenever the AnJaRootRequester tried to utilize the
+ * connection to the Granting Service but wasn't able to do so.
+ * 
+ * If you see this exception it either means that the Granting Service isn't
+ * accessible at all (broken AnJaRoot installation) or a temporary connection
+ * loss occurred.
+ * 
+ * It may also mean that you are misusing the AnJaRootRequester, if you see this
+ * on a regular basis, check your implementation.
+ */
 public class ServiceNotConnectedException extends Exception {
 
 	private static final long serialVersionUID = -8362510380724054770L;

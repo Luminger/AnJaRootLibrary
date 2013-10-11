@@ -14,6 +14,16 @@
  */
 package org.failedprojects.anjaroot.library.exceptions;
 
+/**
+ * Native code syscall error
+ * 
+ * This exception is thrown by the native AnJaRoot part whenever a syscall
+ * failed.
+ * 
+ * If you see this exception if you don't use AnJaRootInternal, something is
+ * wrong with the provided wrappers. If you are using AnJaRootInternal it's up
+ * to you to interpret the returned errno.
+ */
 public class NativeException extends Exception {
 	private static final long serialVersionUID = 5613972860865993387L;
 
@@ -21,10 +31,10 @@ public class NativeException extends Exception {
 		super(err);
 		errno = errno_;
 	}
-	
+
 	public int getErrno() {
 		return errno;
 	}
 
-	private int errno;
+	private final int errno;
 }

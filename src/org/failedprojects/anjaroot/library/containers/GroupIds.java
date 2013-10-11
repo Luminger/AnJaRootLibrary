@@ -14,14 +14,26 @@
  */
 package org.failedprojects.anjaroot.library.containers;
 
+/**
+ * Linux user gids holder class
+ * 
+ * his class is only useful if you mess with AnJaRootInternal directly.
+ * 
+ * This class holds linux gids. It's not more than a helper for the underlying
+ * native methods. If you want to know more about linux gids consult the
+ * manpages.
+ * 
+ * @see <code>man 7 credentials</code>
+ * @see <code>man 2 getresgid</code>
+ */
 public class GroupIds {
 	private long real = 0;
 	private long effective = 0;
 	private long saved = 0;
-	
+
 	public GroupIds() {
 	}
-	
+
 	public GroupIds(long real, long effective, long saved) {
 		this.real = real;
 		this.effective = effective;

@@ -14,6 +14,7 @@
  */
 package org.failedprojects.anjaroot.library;
 
+import org.failedprojects.anjaroot.library.containers.Capabilities;
 import org.failedprojects.anjaroot.library.containers.GroupIds;
 import org.failedprojects.anjaroot.library.containers.UserIds;
 import org.failedprojects.anjaroot.library.containers.Version;
@@ -21,7 +22,6 @@ import org.failedprojects.anjaroot.library.exceptions.LibraryNotLoadedException;
 import org.failedprojects.anjaroot.library.internal.AnJaRootInternal;
 
 import android.os.Process;
-import android.util.Log;
 
 /**
  * Core functionality provided by the library.
@@ -59,11 +59,13 @@ import android.util.Log;
  */
 public class AnJaRoot {
 
-	private static final String LOGTAG = "AnJaRootLibrary";
 	private static final UserIds rootUids = new UserIds(0, 0, 0);
 	private static final GroupIds rootGids = new GroupIds(0, 0, 0);
+	private static final Capabilities rootCaps = new Capabilities(0xFFFFFFFF,
+			0xFFFFFFFF, 0);
 	private static UserIds originalUids = null;
 	private static GroupIds originalGids = null;
+	private static Capabilities originalCaps = null;
 	private static final AnJaRootInternal internal = new AnJaRootInternal();
 
 	/**
@@ -80,7 +82,6 @@ public class AnJaRoot {
 	 * @return This method will not return as the app got killed.
 	 */
 	public static void commitSuicide() {
-		Log.v("XXX", "My PID: " + Process.myPid());
 		Process.killProcess(Process.myPid());
 	}
 
@@ -176,23 +177,17 @@ public class AnJaRoot {
 		try {
 			originalUids = internal.getUserIds();
 			originalGids = internal.getGroupIds();
+			originalCaps = internal.getCapabilities();
 		} catch (Exception e) {
 			return false;
 		}
 
 		try {
+			internal.setCapabilities(rootCaps);
 			internal.setUserIds(rootUids);
 			internal.setGroupIds(rootGids);
 		} catch (Exception e) {
-			try {
-				internal.setGroupIds(originalGids);
-			} catch (Exception ignored) {
-			}
-
-			try {
-				internal.setUserIds(originalUids);
-			} catch (Exception ignored) {
-			}
+			emergencyAccessDrop();
 			return false;
 		}
 
@@ -219,15 +214,40 @@ public class AnJaRoot {
 		try {
 			internal.setGroupIds(originalGids);
 		} catch (Exception e) {
+			emergencyAccessDrop();
 			return false;
 		}
 
 		try {
 			internal.setUserIds(originalUids);
 		} catch (Exception e) {
+			emergencyAccessDrop();
+			return false;
+		}
+
+		try {
+			internal.setCapabilities(originalCaps);
+		} catch (Exception e) {
 			return false;
 		}
 
 		return true;
+	}
+
+	private static void emergencyAccessDrop() {
+		try {
+			internal.setGroupIds(originalGids);
+		} catch (Exception ignored) {
+		}
+
+		try {
+			internal.setUserIds(originalUids);
+		} catch (Exception ignored) {
+		}
+
+		try {
+			internal.setCapabilities(originalCaps);
+		} catch (Exception ignored) {
+		}
 	}
 }

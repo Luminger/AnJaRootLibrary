@@ -14,6 +14,14 @@
  */
 package org.failedprojects.anjaroot.library.exceptions;
 
+/**
+ * Native library not found
+ * 
+ * Thrown if AnJaRootLibrary couldn't access the underlying native library which
+ * is hooked directly into the zygote process. If you see this exception it
+ * normally means that AnJaRoot is not installed (correctly) and is therefore
+ * non functional.
+ */
 public class LibraryNotLoadedException extends Exception {
 
 	private static final long serialVersionUID = -8618891193291966124L;

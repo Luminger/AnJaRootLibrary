@@ -14,14 +14,26 @@
  */
 package org.failedprojects.anjaroot.library.containers;
 
+/**
+ * Linux user uids holder class
+ * 
+ * his class is only useful if you mess with AnJaRootInternal directly.
+ * 
+ * This class holds linux uids. It's not more than a helper for the underlying
+ * native methods. If you want to know more about linux uids consult the
+ * manpages.
+ * 
+ * @see <code>man 7 credentials</code>
+ * @see <code>man 2 getresuid</code>
+ */
 public class UserIds {
 	private long real = 0;
 	private long effective = 0;
 	private long saved = 0;
-	
+
 	public UserIds() {
 	}
-	
+
 	public UserIds(long real, long effective, long saved) {
 		this.real = real;
 		this.effective = effective;

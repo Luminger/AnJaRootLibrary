@@ -14,6 +14,12 @@
  */
 package org.failedprojects.anjaroot.library.containers;
 
+/**
+ * Native Status holder class
+ * 
+ * This class holds information received from the native part of AnJaRoot about
+ * the current runtime status.
+ */
 public class Status {
 	private final boolean hooked;
 	private final boolean alreadyRun;
@@ -25,14 +31,35 @@ public class Status {
 		this.granted = granted;
 	}
 
+	/**
+	 * Get hook status
+	 * 
+	 * Get the status of the hook (if capset is actually hooked or not).
+	 * 
+	 * @return <code>true</code> if hook is placed, otherwise <code>false</code>
+	 */
 	public boolean isHooked() {
 		return hooked;
 	}
 
+	/**
+	 * Get if hook was already ran
+	 * 
+	 * Get the status of the hook (if it was ran in the zygote).
+	 * 
+	 * @return <code>true</code> if hook did ran, otherwise <code>false</code>
+	 */
 	public boolean isAlreadyRun() {
 		return alreadyRun;
 	}
 
+	/**
+	 * Get if the caller is granted
+	 * 
+	 * Get the current access status (if the caller is allowed to gain access)
+	 * 
+	 * @return <code>true</code> if granted, otherwise <code>false</code>
+	 */
 	public boolean isGranted() {
 		return granted;
 	}

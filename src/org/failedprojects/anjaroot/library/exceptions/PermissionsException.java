@@ -14,6 +14,16 @@
  */
 package org.failedprojects.anjaroot.library.exceptions;
 
+/**
+ * Insufficient permissions
+ * 
+ * This exception is thrown whenever a native method wasn't able to fulfill a
+ * request because the caller had insufficient permissions.
+ * 
+ * If you see this exception if you don't use AnJaRootInternal, something is
+ * wrong with the provided wrappers. If you are using AnJaRootInternal it's up
+ * to you to interpret the returned errno.
+ */
 public class PermissionsException extends Exception {
 	private static final long serialVersionUID = -2302160964432316936L;
 

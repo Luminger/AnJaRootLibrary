@@ -14,14 +14,26 @@
  */
 package org.failedprojects.anjaroot.library.containers;
 
+/**
+ * Linux capabilities holder class
+ * 
+ * This class is only useful if you mess with AnJaRootInternal directly.
+ * 
+ * This class holds informations about the capabilities a linux process has.
+ * It's not more than a helper for the underlying native methods. If you want to
+ * know more about linux capabilities consult the manpages.
+ * 
+ * @see <code>man 7 capabilities</code>
+ * @see <code>man 2 capget</code>
+ */
 public class Capabilities {
 	private long effective = 0;
 	private long permitted = 0;
 	private long inheritable = 0;
-	
+
 	public Capabilities() {
 	}
-	
+
 	public Capabilities(long effective, long permitted, long inheritable) {
 		this.effective = effective;
 		this.permitted = permitted;
