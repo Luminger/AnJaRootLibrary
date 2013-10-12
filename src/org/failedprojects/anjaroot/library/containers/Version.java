@@ -25,7 +25,9 @@ import android.annotation.SuppressLint;
  * 
  * The versioning scheme used by AnJaRoot complies with the Semantic Versioning
  * 2.0.0. The ApiLevel is constantly increased whenever a "significant" Api
- * change has been done on the native side.
+ * change has been done on the native side, it's not part of the version
+ * identifier itself - it's meant for AnJaRootLibrary to be able to react to
+ * different native versions.
  * 
  * @see <a href="http://semver.org/spec/v2.0.0.html">Semantic Versioning
  *      2.0.0.</a>
@@ -46,12 +48,12 @@ public class Version {
 	/**
 	 * Get Version as String for printing
 	 * 
-	 * @return A String with the format Major.Minor.Patch-ApiLevel
+	 * @return A String with the format Major.Minor.Patch
 	 */
 	@Override
 	@SuppressLint("DefaultLocale")
 	public String toString() {
-		return String.format("%d.%d.%d-%d", major, minor, patch, apilvl);
+		return String.format("%d.%d.%d", major, minor, patch);
 	}
 
 	public int getMajor() {
