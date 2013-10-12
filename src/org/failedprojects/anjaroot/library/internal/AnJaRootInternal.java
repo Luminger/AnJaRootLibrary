@@ -22,7 +22,6 @@ import org.failedprojects.anjaroot.library.containers.Version;
 import org.failedprojects.anjaroot.library.exceptions.LibraryNotLoadedException;
 import org.failedprojects.anjaroot.library.exceptions.NativeException;
 import org.failedprojects.anjaroot.library.exceptions.OutOfBoundsException;
-import org.failedprojects.anjaroot.library.exceptions.PermissionsException;
 
 import android.util.Log;
 
@@ -84,7 +83,7 @@ public class AnJaRootInternal {
 	}
 
 	public Capabilities getCapabilities() throws NativeException,
-			PermissionsException, LibraryNotLoadedException {
+			LibraryNotLoadedException {
 		if (!isLibraryLoaded()) {
 			throw new LibraryNotLoadedException();
 		}
@@ -93,8 +92,7 @@ public class AnJaRootInternal {
 	}
 
 	public void setCapabilities(Capabilities caps) throws NativeException,
-			PermissionsException, OutOfBoundsException,
-			LibraryNotLoadedException {
+			OutOfBoundsException, LibraryNotLoadedException {
 		if (!isLibraryLoaded()) {
 			throw new LibraryNotLoadedException();
 		}
@@ -112,8 +110,7 @@ public class AnJaRootInternal {
 	}
 
 	public void setUserIds(UserIds uids) throws NativeException,
-			PermissionsException, OutOfBoundsException,
-			LibraryNotLoadedException {
+			OutOfBoundsException, LibraryNotLoadedException {
 		if (!isLibraryLoaded()) {
 			throw new LibraryNotLoadedException();
 		}
@@ -131,8 +128,7 @@ public class AnJaRootInternal {
 	}
 
 	public void setGroupIds(GroupIds gids) throws NativeException,
-			PermissionsException, OutOfBoundsException,
-			LibraryNotLoadedException {
+			OutOfBoundsException, LibraryNotLoadedException {
 		if (!isLibraryLoaded()) {
 			throw new LibraryNotLoadedException();
 		}

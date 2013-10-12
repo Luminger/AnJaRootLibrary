@@ -21,17 +21,15 @@ import org.failedprojects.anjaroot.library.containers.UserIds;
 import org.failedprojects.anjaroot.library.containers.Version;
 import org.failedprojects.anjaroot.library.exceptions.NativeException;
 import org.failedprojects.anjaroot.library.exceptions.OutOfBoundsException;
-import org.failedprojects.anjaroot.library.exceptions.PermissionsException;
 
 class NativeWrapper {
-	public static Capabilities getCapabilities() throws NativeException,
-			PermissionsException {
+	public static Capabilities getCapabilities() throws NativeException {
 		long[] perms = NativeMethods.capget(0);
 		return new Capabilities(perms[0], perms[1], perms[2]);
 	}
 
 	public static void setCapabilities(Capabilities caps)
-			throws NativeException, PermissionsException, OutOfBoundsException {
+			throws NativeException, OutOfBoundsException {
 		NativeMethods.capset(caps.getEffective(), caps.getPermitted(),
 				caps.getInheritable());
 	}
@@ -42,7 +40,7 @@ class NativeWrapper {
 	}
 
 	public static void setUserIds(UserIds uids) throws NativeException,
-			PermissionsException, OutOfBoundsException {
+			OutOfBoundsException {
 		NativeMethods.setresuid(uids.getReal(), uids.getEffective(),
 				uids.getSaved());
 	}
@@ -53,7 +51,7 @@ class NativeWrapper {
 	}
 
 	public static void setGroupIds(GroupIds gids) throws NativeException,
-			PermissionsException, OutOfBoundsException {
+			OutOfBoundsException {
 		NativeMethods.setresgid(gids.getReal(), gids.getEffective(),
 				gids.getSaved());
 	}

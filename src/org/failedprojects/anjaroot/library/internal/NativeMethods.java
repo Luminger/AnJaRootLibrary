@@ -16,25 +16,22 @@ package org.failedprojects.anjaroot.library.internal;
 
 import org.failedprojects.anjaroot.library.exceptions.NativeException;
 import org.failedprojects.anjaroot.library.exceptions.OutOfBoundsException;
-import org.failedprojects.anjaroot.library.exceptions.PermissionsException;
 
 class NativeMethods {
-	public native static long[] capget(int pid) throws NativeException,
-			PermissionsException;
+	public native static long[] capget(int pid) throws NativeException;
 
 	public native static void capset(long effective, long permitted,
-			long inheritable) throws NativeException, PermissionsException,
-			OutOfBoundsException;
+			long inheritable) throws NativeException, OutOfBoundsException;
 
 	public native static long[] getresuid() throws NativeException;
 
 	public native static void setresuid(long ruid, long euid, long suid)
-			throws NativeException, PermissionsException, OutOfBoundsException;
+			throws NativeException, OutOfBoundsException;
 
 	public native static long[] getresgid() throws NativeException;
 
 	public native static void setresgid(long rgid, long egid, long sgid)
-			throws NativeException, PermissionsException, OutOfBoundsException;
+			throws NativeException, OutOfBoundsException;
 
 	public native static int[] getversion();
 
