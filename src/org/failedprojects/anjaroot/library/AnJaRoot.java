@@ -21,7 +21,11 @@ import org.failedprojects.anjaroot.library.containers.Version;
 import org.failedprojects.anjaroot.library.exceptions.LibraryNotLoadedException;
 import org.failedprojects.anjaroot.library.internal.AnJaRootInternal;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.os.Process;
+import android.os.SystemClock;
 
 /**
  * Core functionality provided by the library.
@@ -83,6 +87,38 @@ public class AnJaRoot {
 	 */
 	public static void commitSuicide() {
 		Process.killProcess(Process.myPid());
+	}
+
+	/**
+	 * Kill the current (linux) process and restart.
+	 * 
+	 * This method works exactly like {@link #commitSuicide()} but also accepts
+	 * a pending intent which will be fired by the @ AlarmManager} a second
+	 * after the current process is killed. This enables you to restart your app
+	 * in a user friendly way as it (should) gets soon restarted. It's up to you
+	 * to provide a valid Intent here, no further checking is done.
+	 * 
+	 * @param context
+	 *            context used to get a reference to {@link AlarmManager}
+	 * @param intent
+	 *            intent which will be fired by the {@link AlarmManager} shortly
+	 *            after the app committed suicide
+	 */
+	public static void commitSuicideAndRestart(Context context,
+			PendingIntent intent) {
+		if (context == null) {
+			throw new NullPointerException("context can't be null");
+		}
+
+		if (intent == null) {
+			throw new NullPointerException("intent can't be null");
+		}
+
+		AlarmManager am = (AlarmManager) context
+				.getSystemService(Context.ALARM_SERVICE);
+		am.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+				SystemClock.elapsedRealtime() + 1000, intent);
+		commitSuicide();
 	}
 
 	/**
