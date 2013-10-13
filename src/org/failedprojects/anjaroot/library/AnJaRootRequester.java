@@ -177,7 +177,7 @@ public class AnJaRootRequester {
 	 * 
 	 * Please note that when the user has denied you access to AnJaRoot, by
 	 * pressing the corresponding button in the presented ui, your app will be
-	 * blocked for 10 seconds until it's allowed to issue another request.
+	 * blocked for 5 seconds until it's allowed to issue another request.
 	 * 
 	 * Future versions of the library may add an async version of this function
 	 * so you don't have to do the threading work on your own.
