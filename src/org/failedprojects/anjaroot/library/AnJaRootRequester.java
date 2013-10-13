@@ -20,6 +20,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.os.AsyncTask;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
@@ -69,6 +70,34 @@ public class AnJaRootRequester {
 		}
 	};
 
+	private class AsyncRequestTask extends AsyncTask<Void, Void, Boolean> {
+		private final AsyncRequestHandler handler;
+
+		public AsyncRequestTask(AsyncRequestHandler handler) {
+			this.handler = handler;
+		}
+
+		@Override
+		protected Boolean doInBackground(Void... params) {
+			try {
+				return service.requestAccess();
+			} catch (RemoteException e) {
+				Log.e(LOGTAG, "Remote method failed", e);
+				return null;
+			}
+		}
+
+		@Override
+		protected void onPostExecute(Boolean result) {
+			if (result == null) {
+				handler.onServiceUnrechable();
+			} else {
+				handler.onReturn(result);
+			}
+		}
+
+	}
+
 	/**
 	 * Listener which informs about connection status changes. A call to
 	 * {@link #requestAccess()} can only succeed if the connection is up.
@@ -82,6 +111,23 @@ public class AnJaRootRequester {
 		 *            <code>false</code>
 		 */
 		void onConnectionStatusChange(boolean connected);
+	}
+
+	/**
+	 * Handler which informs about the returned granting status of an access
+	 * request.
+	 */
+	public interface AsyncRequestHandler {
+		/**
+		 * Called when a decision about the access request has been made.
+		 */
+		void onReturn(boolean granted);
+
+		/**
+		 * Called when no connection to the AnJaRoot Service could be
+		 * established.
+		 */
+		void onServiceUnrechable();
 	}
 
 	/**
@@ -179,9 +225,6 @@ public class AnJaRootRequester {
 	 * pressing the corresponding button in the presented ui, your app will be
 	 * blocked for 5 seconds until it's allowed to issue another request.
 	 * 
-	 * Future versions of the library may add an async version of this function
-	 * so you don't have to do the threading work on your own.
-	 * 
 	 * @return <code>true</code> if the user has granted your request,
 	 *         <code>false</code> if the request timed out, couldn't be placed
 	 *         or simply timed out.
@@ -196,6 +239,32 @@ public class AnJaRootRequester {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Request access to AnJaRoot. This method will (if the service connection
+	 * is established) create a new dialog for the user where he may grant or
+	 * deny your request.
+	 * 
+	 * This is the non blocking version of the request interface which should be
+	 * preferred by users of this library as it provides a very convenient way
+	 * of requesting access in a non blocking manner.
+	 * 
+	 * The {@link AsyncRequestHandler} handler behaves exactly like its
+	 * synchronous brother {@link #requestAccess()} in terms of the returned
+	 * value (return value is dispatched to
+	 * {@link AsyncRequestHandler#onReturn(boolean)}.
+	 * 
+	 * @param handler
+	 *            a handler used to return the request result
+	 */
+	public void requestAccessAsync(AsyncRequestHandler handler) {
+		if (handler == null) {
+			throw new NullPointerException("handler can't be null");
+		}
+
+		AsyncRequestTask task = new AsyncRequestTask(handler);
+		task.execute();
 	}
 
 }
