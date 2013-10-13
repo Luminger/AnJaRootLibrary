@@ -169,12 +169,15 @@ public class AnJaRootRequester {
 	 * thread, you will get ANRs as this method may block multiple seconds.
 	 * 
 	 * The result may be <code>false</code> if the connection wasn't up or the
-	 * user denied your request. Don't spam this function as it will create a
-	 * new dialog every time you call it. If <code>true</code> is returned the
-	 * user granted your request and you are allowed to use AnJaRoot. To make
-	 * this happen you have to completly restart your application process(es) as
-	 * otherwise the granting can take no effect. Use @{link
+	 * user denied your request. If <code>true</code> is returned the user
+	 * granted your request and you are allowed to use AnJaRoot. To make this
+	 * happen you have to completly restart your application process(es) as
+	 * otherwise the granting can take no effect. Use
 	 * {@link AnJaRoot#commitSuicide()} to kill your process.
+	 * 
+	 * Please note that when the user has denied you access to AnJaRoot, by
+	 * pressing the corresponding button in the presented ui, your app will be
+	 * blocked for 10 seconds until it's allowed to issue another request.
 	 * 
 	 * Future versions of the library may add an async version of this function
 	 * so you don't have to do the threading work on your own.
