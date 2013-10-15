@@ -132,7 +132,7 @@ public class AnJaRoot {
 	 *         AnJaRoot is not usable on this system.
 	 */
 	public static boolean isAccessPossible() {
-		return internal.isReady();
+		return internal.isLibraryLoaded();
 	}
 
 	/**
@@ -146,7 +146,11 @@ public class AnJaRoot {
 	 *         this app, <code>false</code> if request must be requested
 	 */
 	public static boolean isAccessGranted() {
-		return internal.isGranted();
+		try {
+			return internal.isGranted();
+		} catch (Exception ignored) {
+			return false;
+		}
 	}
 
 	/**

@@ -16,7 +16,6 @@ package org.failedprojects.anjaroot.library.internal;
 
 import org.failedprojects.anjaroot.library.containers.Capabilities;
 import org.failedprojects.anjaroot.library.containers.GroupIds;
-import org.failedprojects.anjaroot.library.containers.Status;
 import org.failedprojects.anjaroot.library.containers.UserIds;
 import org.failedprojects.anjaroot.library.containers.Version;
 import org.failedprojects.anjaroot.library.exceptions.LibraryNotLoadedException;
@@ -38,13 +37,11 @@ public class AnJaRootInternal {
 	private boolean loaded;
 	private final Version libraryVersion = new Version(1, 0, 0, 1);
 	private Version nativeVersion;
-	private Status status;
 
 	public AnJaRootInternal() {
 		try {
 			System.loadLibrary("anjaroot");
 			nativeVersion = NativeWrapper.getVersion();
-			status = NativeWrapper.getStatus();
 			NativeWrapper.setCompatMode(libraryVersion);
 			Log.v(LOGTAG, "Native library loaded");
 			loaded = true;
@@ -58,16 +55,10 @@ public class AnJaRootInternal {
 		return loaded;
 	}
 
-	public boolean isReady() {
-		if (isLibraryLoaded()) {
-			return status.isHooked() && status.isAlreadyRun();
-		}
-
-		return false;
-	}
-
-	public boolean isGranted() {
-		return isReady() && status.isGranted();
+	public boolean isGranted() throws NativeException,
+			LibraryNotLoadedException {
+		Capabilities caps = getCapabilities();
+		return caps.getPermitted() == 0xFFFFFFFF;
 	}
 
 	public Version getNativeVersion() throws LibraryNotLoadedException {

@@ -35,7 +35,5 @@ class NativeMethods {
 
 	public native static int[] getversion();
 
-	public native static boolean[] getstatus();
-
 	public native static void setcompatmode(int apilvl);
 }

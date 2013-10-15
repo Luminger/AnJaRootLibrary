@@ -16,7 +16,6 @@ package org.failedprojects.anjaroot.library.internal;
 
 import org.failedprojects.anjaroot.library.containers.Capabilities;
 import org.failedprojects.anjaroot.library.containers.GroupIds;
-import org.failedprojects.anjaroot.library.containers.Status;
 import org.failedprojects.anjaroot.library.containers.UserIds;
 import org.failedprojects.anjaroot.library.containers.Version;
 import org.failedprojects.anjaroot.library.exceptions.NativeException;
@@ -59,11 +58,6 @@ class NativeWrapper {
 	public static Version getVersion() {
 		int[] version = NativeMethods.getversion();
 		return new Version(version[0], version[1], version[2], version[3]);
-	}
-
-	public static Status getStatus() {
-		boolean[] status = NativeMethods.getstatus();
-		return new Status(status[0], status[1], status[2]);
 	}
 
 	public static void setCompatMode(Version libraryVersion) {
