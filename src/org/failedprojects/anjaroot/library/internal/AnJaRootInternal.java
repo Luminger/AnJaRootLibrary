@@ -40,7 +40,7 @@ public class AnJaRootInternal {
 
 	public AnJaRootInternal() {
 		try {
-			System.loadLibrary("anjaroot");
+			System.load("/system/lib/libanjaroot.so");
 			nativeVersion = NativeWrapper.getVersion();
 			NativeWrapper.setCompatMode(libraryVersion);
 			Log.v(LOGTAG, "Native library loaded");
@@ -58,7 +58,7 @@ public class AnJaRootInternal {
 	public boolean isGranted() throws NativeException,
 			LibraryNotLoadedException {
 		Capabilities caps = getCapabilities();
-		return caps.getPermitted() == 0xFFFFFFFF;
+		return caps.getPermitted() == 0xFFFFFFFFL;
 	}
 
 	public Version getNativeVersion() throws LibraryNotLoadedException {

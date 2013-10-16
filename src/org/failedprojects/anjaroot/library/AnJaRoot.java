@@ -24,27 +24,34 @@ import org.failedprojects.anjaroot.library.internal.AnJaRootInternal;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Process;
 import android.os.SystemClock;
 
 /**
  * Core functionality provided by the library.
  * 
+ * 
  * This class provides all the functionalities needed to gain root privileges
  * (linux capabilities and uid=0, gid=0). The user has to do the following steps
  * to make use of AnJaRoot:
  * 
+ * 
+ * 
  * <ol>
- * <li>{@link #isAccessPossible() Check if AnJaRoot is usable}</li>
- * <li>{@link #isAccessGranted() Check if access is granted by AnJaRoot}</li>
+ * <li>Declare to use <code>android.permission.ACCESS_ANJAROOT</code> permission
+ * in your AndroidManifest.xml in a <code>uses-permissions</code> tag
+ * <li>Use {@link #isInstalled()} to check if AnJaRoot is installed</li>
  * </ol>
  * 
  * If {@link #isAccessGranted()} returned false (access is NOT granted):
  * <ol>
  * <li>Use {@link org.failedprojects.anjaroot.library.AnJaRootRequester} to
  * request access
- * <li>If the previous step returned true, {@link #commitSuicide() kill your
- * current linux process}</li>
+ * <li>If the previous step returned true, use {@link #commitSuicide()} or
+ * {@link AnJaRoot#commitSuicideAndRestart(Context, PendingIntent)} to kill your
+ * current (linux) process.</li>
  * </ol>
  * 
  * If {@link #isAccessGranted()} returned true:
@@ -129,9 +136,9 @@ public class AnJaRoot {
 	 * installed at all or the current installation is broken.
 	 * 
 	 * @return <code>true</true> if AnJaRoot is ready, <code>false</code> if
-	 *         AnJaRoot is not usable on this system.
+	 *         AnJaRoot is not usable on this system (not installed).
 	 */
-	public static boolean isAccessPossible() {
+	public static boolean isInstalled() {
 		return internal.isLibraryLoaded();
 	}
 
@@ -140,7 +147,7 @@ public class AnJaRoot {
 	 * 
 	 * This method checks if access is already granted for the calling app. The
 	 * user may proceed to {@link #gainAccess()} if <code>true</code> is
-	 * returnd, otherwise {@link #requestAccess()} needs to be called.
+	 * returned, otherwise {@link #requestAccess()} needs to be called.
 	 * 
 	 * @return <code>true</code> if the user allowed the usage of AnJaRoot for
 	 *         this app, <code>false</code> if request must be requested
@@ -272,6 +279,26 @@ public class AnJaRoot {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Open the AnJaRoot Play Store entry.
+	 * 
+	 * You may call this method to offer the user a possibility to install
+	 * AnJaRoot. It will open the Play Store via
+	 * {@link Context#startActivity(Intent)} immediately.
+	 * 
+	 * This method should be used after you have detected that AnJaRoot is not
+	 * installed (via {@link #isInstalled()}).
+	 * 
+	 * @param context
+	 *            a context used to spawn the Play Store
+	 */
+	public static void openPlayStore(Context context) {
+		Intent intent = new Intent(Intent.ACTION_VIEW);
+		intent.setData(Uri
+				.parse("market://details?id=org.failedprojects.anjaroot"));
+		context.startActivity(intent);
 	}
 
 	private static void emergencyAccessDrop() {

@@ -104,7 +104,7 @@ public class AnJaRootRequester {
 	 */
 	public interface ConnectionStatusListener {
 		/**
-		 * Called whenever a status change occured.
+		 * Called whenever a status change occurred.
 		 * 
 		 * @param connected
 		 *            <code>true</code> if connected, otherwise
@@ -152,8 +152,8 @@ public class AnJaRootRequester {
 	}
 
 	/**
-	 * Set (or unset) the used listener which gets notifications about
-	 * connection status changes.
+	 * Set (or unset) the used listener which gets informed about connection
+	 * status changes.
 	 * 
 	 * @param listener
 	 *            May be <code>null</code> to unregister
@@ -217,7 +217,7 @@ public class AnJaRootRequester {
 	 * The result may be <code>false</code> if the connection wasn't up or the
 	 * user denied your request. If <code>true</code> is returned the user
 	 * granted your request and you are allowed to use AnJaRoot. To make this
-	 * happen you have to completly restart your application process(es) as
+	 * happen you have to completely restart your application process(es) as
 	 * otherwise the granting can take no effect. Use
 	 * {@link AnJaRoot#commitSuicide()} to kill your process.
 	 * 
