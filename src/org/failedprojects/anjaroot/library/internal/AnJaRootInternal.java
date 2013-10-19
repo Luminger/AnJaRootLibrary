@@ -27,10 +27,12 @@ import android.util.Log;
 /**
  * Exposed internal interface of the AnJaRootLibrary.
  * 
+ * <p>
  * This class drives the AnJaRoot high level class. You are free to use it, it
  * will change in a backward compatible way whenever possible. But keep in mind
  * that you should only do so if you really need something which can't be done
  * with the high level interface.
+ * </p>
  */
 public class AnJaRootInternal {
 	private static final String LOGTAG = "AnJaRootLibraryInternal";

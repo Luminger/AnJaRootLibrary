@@ -17,11 +17,11 @@ package org.failedprojects.anjaroot.library.containers;
 /**
  * Linux user uids holder class.
  * 
- * his class is only useful if you mess with AnJaRootInternal directly.
- * 
+ * <p>
  * This class holds linux uids. It's not more than a helper for the underlying
  * native methods. If you want to know more about linux uids consult the
  * manpages.
+ * </p>
  * 
  * @see <code>man 7 credentials</code>
  * @see <code>man 2 getresuid</code>

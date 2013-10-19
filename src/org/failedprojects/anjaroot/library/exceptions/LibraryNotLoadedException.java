@@ -21,6 +21,8 @@ package org.failedprojects.anjaroot.library.exceptions;
  * is hooked directly into the zygote process. If you see this exception it
  * normally means that AnJaRoot is not installed (correctly) and is therefore
  * non functional.
+ * 
+ * Make sure that AnJaRoot is installed properly, consider filling a bugreport.
  */
 public class LibraryNotLoadedException extends Exception {
 

@@ -17,11 +17,11 @@ package org.failedprojects.anjaroot.library.containers;
 /**
  * Linux capabilities holder class.
  * 
- * This class is only useful if you mess with AnJaRootInternal directly.
- * 
+ * <p>
  * This class holds informations about the capabilities a linux process has.
  * It's not more than a helper for the underlying native methods. If you want to
  * know more about linux capabilities consult the manpages.
+ * </p>
  * 
  * @see <code>man 7 capabilities</code>
  * @see <code>man 2 capget</code>

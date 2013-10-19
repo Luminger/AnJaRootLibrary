@@ -28,17 +28,25 @@ import android.util.Log;
 /**
  * Request AnJaRoot access.
  * 
+ * <p>
  * This class is used to request access to AnJaRoot. Use it in conjunction with
- * the main AnJaRoot static methods to gain access in the first place. If your
- * request is granted, this class it not needed any more (until the user deletes
+ * the main {@link AnJaRoot} class to gain access in the first place. If your
+ * request is granted, this class it not needed anymore (until the user deletes
  * the given granting, of course).
+ * </p>
  * 
- * It's a thin wrapper around {@link android.component.Context#bindService()}
- * which should aid you in maintaining the service connection. You should
- * instantiate it in your Fragments/Activity/Service onCreate() method. The
- * service connection will not be available before at least onCreate() returned.
- * It's good practice to register a ConnectionStatusListener to get a
- * notification if the connection is ready for use.
+ * <p>
+ * It's a thin wrapper around {@link android.component.Context#bindService()
+ * bindService()}, which should aid you in maintaining a healthy connection to
+ * the service. You should instantiate it in your Fragments/Activity/Service
+ * <code>onCreate()</code> method. The service connection will not be available
+ * before at least <code>onCreate()</code> returned. It's good practice to
+ * register a {@link ConnectionStatusListener} to get a notification if the
+ * connection is ready for use.
+ * </p>
+ * 
+ * @see The <a href="https://github.com/Luminger/AnJaRootTester">AnJaRoot
+ *      Tester</a> for a reference implementation.
  */
 public class AnJaRootRequester {
 	private static final String LOGTAG = "AnJaRootLibraryRequester";
@@ -99,8 +107,12 @@ public class AnJaRootRequester {
 	}
 
 	/**
-	 * Listener which informs about connection status changes. A call to
-	 * {@link #requestAccess()} can only succeed if the connection is up.
+	 * Listener which informs about connection status changes.
+	 * 
+	 * <p>
+	 * A call to {@link #requestAccess()} can only succeed if the connection is
+	 * up.
+	 * </p>
 	 */
 	public interface ConnectionStatusListener {
 		/**
@@ -134,8 +146,8 @@ public class AnJaRootRequester {
 	 * Constructor
 	 * 
 	 * @param context
-	 *            A reference to the surrounding Activity, Fragment or service.
-	 *            It will be saved in the resulting object.
+	 *            A reference to the surrounding Application, Activity, Fragment
+	 *            or Service. It will be saved in the resulting object.
 	 * @param listener
 	 *            A listener which will be called on status changes on the
 	 *            connection, may be <code>null</code>
@@ -190,18 +202,26 @@ public class AnJaRootRequester {
 
 	/**
 	 * Manually issue a reconnect if connection has been lost or was
-	 * unavailable. Normally this is not needed as every other method issues a
-	 * reconnect if needed but it may be useful nevertheless.
+	 * unavailable.
+	 * 
+	 * <p>
+	 * Normally this is not needed as every other method issues a reconnect if
+	 * needed but it may be useful nevertheless.
+	 * </p>
 	 */
 	public void reconnectToService() {
 		connectToService();
 	}
 
 	/**
-	 * Get information about the current connection state. You only need this
-	 * method if you aren't using the provided listener possibility.
+	 * Get information about the current connection state.
 	 * 
-	 * @return if <code>true</true>, @{link {@link #requestAccess()} may be used
+	 * <p>
+	 * You only need this method if you aren't using the provided listener
+	 * possibility.
+	 * </p>
+	 * 
+	 * @return if <code>true</code>, {@link #requestAccess()} may be used
 	 */
 	public boolean isConnectedToService() {
 		connectToService();
@@ -209,21 +229,30 @@ public class AnJaRootRequester {
 	}
 
 	/**
-	 * Request access to AnJaRoot. This method will (if the service connection
-	 * is established) create a new dialog for the user where he may grant or
-	 * deny your request. This method WILL BLOCK, don't call it on your UI
-	 * thread, you will get ANRs as this method may block multiple seconds.
+	 * Request access to AnJaRoot.
 	 * 
+	 * <p>
+	 * This method will (if the service connection is established) create a new
+	 * dialog for the user where he may grant or deny your request. This method
+	 * WILL BLOCK, don't call it on your UI thread, you will get ANRs as this
+	 * method may block multiple seconds.
+	 * </p>
+	 * 
+	 * <p>
 	 * The result may be <code>false</code> if the connection wasn't up or the
 	 * user denied your request. If <code>true</code> is returned the user
 	 * granted your request and you are allowed to use AnJaRoot. To make this
 	 * happen you have to completely restart your application process(es) as
 	 * otherwise the granting can take no effect. Use
-	 * {@link AnJaRoot#commitSuicide()} to kill your process.
+	 * {@link AnJaRoot#commitSuicideAndRestart(Context, android.app.PendingIntent)}
+	 * or {@link AnJaRoot#commitSuicide()} to kill your process.
+	 * </p>
 	 * 
+	 * <p>
 	 * Please note that when the user has denied you access to AnJaRoot, by
 	 * pressing the corresponding button in the presented ui, your app will be
-	 * blocked for 5 seconds until it's allowed to issue another request.
+	 * blocked for several seconds until it's allowed to issue another request.
+	 * </p>
 	 * 
 	 * @return <code>true</code> if the user has granted your request,
 	 *         <code>false</code> if the request timed out, couldn't be placed
@@ -242,18 +271,25 @@ public class AnJaRootRequester {
 	}
 
 	/**
-	 * Request access to AnJaRoot. This method will (if the service connection
-	 * is established) create a new dialog for the user where he may grant or
-	 * deny your request.
+	 * Request access to AnJaRoot.
 	 * 
+	 * <p>
+	 * This method will (if the service connection is established) create a new
+	 * dialog for the user where he may grant or deny your request.
+	 * </p>
+	 * 
+	 * <p>
 	 * This is the non blocking version of the request interface which should be
 	 * preferred by users of this library as it provides a very convenient way
 	 * of requesting access in a non blocking manner.
+	 * </p>
 	 * 
+	 * <p>
 	 * The {@link AsyncRequestHandler} handler behaves exactly like its
 	 * synchronous brother {@link #requestAccess()} in terms of the returned
 	 * value (return value is dispatched to
-	 * {@link AsyncRequestHandler#onReturn(boolean)}.
+	 * {@link AsyncRequestHandler#onReturn(boolean)}).
+	 * </p>
 	 * 
 	 * @param handler
 	 *            a handler used to return the request result

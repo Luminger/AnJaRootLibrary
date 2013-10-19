@@ -19,15 +19,19 @@ import android.annotation.SuppressLint;
 /**
  * AnJaRoot version information holder.
  * 
+ * <p>
  * This class holds version information from either the AnJaRoot Library or it's
  * native counterpart. It's only useful under certain conditions (additional
  * compatibility checks or simple version printing).
+ * </p>
  * 
+ * <p>
  * The versioning scheme used by AnJaRoot complies with the Semantic Versioning
  * 2.0.0. The ApiLevel is constantly increased whenever a "significant" Api
  * change has been done on the native side, it's not part of the version
  * identifier itself - it's meant for AnJaRootLibrary to be able to react to
  * different native versions.
+ * </p>
  * 
  * @see <a href="http://semver.org/spec/v2.0.0.html">Semantic Versioning
  *      2.0.0.</a>
