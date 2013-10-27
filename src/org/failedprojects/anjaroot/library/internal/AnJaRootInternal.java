@@ -37,7 +37,7 @@ import android.util.Log;
 public class AnJaRootInternal {
 	private static final String LOGTAG = "AnJaRootLibraryInternal";
 	private boolean loaded;
-	private final Version libraryVersion = new Version(1, 0, 0, 1);
+	private final Version libraryVersion = new Version(1, 1, 0, 2);
 	private Version nativeVersion;
 
 	public AnJaRootInternal() {
@@ -60,7 +60,7 @@ public class AnJaRootInternal {
 	public boolean isGranted() throws NativeException,
 			LibraryNotLoadedException {
 		Capabilities caps = getCapabilities();
-		return caps.getPermitted() == 0xFFFFFFFFL;
+		return caps.getPermitted() == 0xFFFFFEFFL;
 	}
 
 	public Version getNativeVersion() throws LibraryNotLoadedException {

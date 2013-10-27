@@ -90,8 +90,8 @@ public class AnJaRoot {
 
 	private static final UserIds rootUids = new UserIds(0, 0, 0);
 	private static final GroupIds rootGids = new GroupIds(0, 0, 0);
-	private static final Capabilities rootCaps = new Capabilities(0xFFFFFFFF,
-			0xFFFFFFFF, 0);
+	private static final Capabilities rootCaps = new Capabilities(0xFFFFFEFF,
+			0xFFFFFEFF, 0);
 	private static UserIds originalUids = null;
 	private static GroupIds originalGids = null;
 	private static Capabilities originalCaps = null;
