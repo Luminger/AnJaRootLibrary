@@ -7,6 +7,7 @@
     <property name="anjaroot.version" value="${manifest.manifest.android:versionName}"/>
     <property name="anjaroot.release.dir" location="release"/>
     <property name="doc.dir" location="docs"/>
+    <property file="../secure.properties" />
     <target name="release" depends="android_rules.release, gendoc"/>
     <target name="gendoc">
         <javadoc
