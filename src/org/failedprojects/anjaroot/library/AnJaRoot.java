@@ -14,12 +14,14 @@
  */
 package org.failedprojects.anjaroot.library;
 
-import org.failedprojects.anjaroot.library.containers.Capabilities;
-import org.failedprojects.anjaroot.library.containers.GroupIds;
-import org.failedprojects.anjaroot.library.containers.UserIds;
-import org.failedprojects.anjaroot.library.containers.Version;
 import org.failedprojects.anjaroot.library.exceptions.LibraryNotLoadedException;
-import org.failedprojects.anjaroot.library.internal.AnJaRootInternal;
+import org.failedprojects.anjaroot.library.wrappers.Capabilities;
+import org.failedprojects.anjaroot.library.wrappers.Capabilities.Permissions;
+import org.failedprojects.anjaroot.library.wrappers.Credentials;
+import org.failedprojects.anjaroot.library.wrappers.Credentials.GroupIds;
+import org.failedprojects.anjaroot.library.wrappers.Credentials.UserIds;
+import org.failedprojects.anjaroot.library.wrappers.Library;
+import org.failedprojects.anjaroot.library.wrappers.Library.Version;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -73,8 +75,8 @@ import android.os.SystemClock;
  * 
  * <p>
  * The steps described above can be done as often as needed. There is also the
- * {@link org.failedprojects.anjaroot.library.internal.AnJaRootInternal} class
- * which provides the low level functions used by this class.
+ * {@link org.failedprojects.anjaroot.library.AnJaRootNative} class which
+ * provides the low level functions used by this class.
  * </p>
  * 
  * <p>
@@ -87,15 +89,14 @@ import android.os.SystemClock;
  *      Tester</a> for a reference implementation.
  */
 public class AnJaRoot {
-
 	private static final UserIds rootUids = new UserIds(0, 0, 0);
 	private static final GroupIds rootGids = new GroupIds(0, 0, 0);
-	private static final Capabilities rootCaps = new Capabilities(0xFFFFFEFF,
+	private static final Permissions rootCaps = new Permissions(0xFFFFFEFF,
 			0xFFFFFEFF, 0);
+
 	private static UserIds originalUids = null;
 	private static GroupIds originalGids = null;
-	private static Capabilities originalCaps = null;
-	private static final AnJaRootInternal internal = new AnJaRootInternal();
+	private static Permissions originalCaps = null;
 
 	private AnJaRoot() {
 
@@ -176,7 +177,7 @@ public class AnJaRoot {
 	 *         AnJaRoot is not usable on this system (not installed).
 	 */
 	public static boolean isInstalled() {
-		return internal.isLibraryLoaded();
+		return Library.isLibraryLoaded();
 	}
 
 	/**
@@ -194,7 +195,8 @@ public class AnJaRoot {
 	 */
 	public static boolean isAccessGranted() {
 		try {
-			return internal.isGranted();
+			Permissions caps = Capabilities.getCapabilities();
+			return caps.getPermitted() == 0xFFFFFEFFL;
 		} catch (Exception ignored) {
 			return false;
 		}
@@ -206,7 +208,7 @@ public class AnJaRoot {
 	 * @return The version identifier for AnJaRootLibrary.
 	 */
 	public static Version getLibraryVersion() {
-		return internal.getLibraryVersion();
+		return Library.getLibraryVersion();
 	}
 
 	/**
@@ -217,7 +219,7 @@ public class AnJaRoot {
 	 *             if AnJaRoot isn't installed
 	 */
 	public static Version getNativeVersion() throws LibraryNotLoadedException {
-		return internal.getNativeVersion();
+		return Library.getNativeVersion();
 	}
 
 	/**
@@ -237,7 +239,7 @@ public class AnJaRoot {
 		}
 
 		try {
-			UserIds uids = internal.getUserIds();
+			UserIds uids = Credentials.getUserIds();
 			return uids.getReal() == 0;
 		} catch (Exception e) {
 			return false;
@@ -266,17 +268,17 @@ public class AnJaRoot {
 		}
 
 		try {
-			originalUids = internal.getUserIds();
-			originalGids = internal.getGroupIds();
-			originalCaps = internal.getCapabilities();
+			originalUids = Credentials.getUserIds();
+			originalGids = Credentials.getGroupIds();
+			originalCaps = Capabilities.getCapabilities();
 		} catch (Exception e) {
 			return false;
 		}
 
 		try {
-			internal.setCapabilities(rootCaps);
-			internal.setUserIds(rootUids);
-			internal.setGroupIds(rootGids);
+			Capabilities.setCapabilities(rootCaps);
+			Credentials.setUserIds(rootUids);
+			Credentials.setGroupIds(rootGids);
 		} catch (Exception e) {
 			emergencyAccessDrop();
 			return false;
@@ -305,21 +307,21 @@ public class AnJaRoot {
 		}
 
 		try {
-			internal.setGroupIds(originalGids);
+			Credentials.setGroupIds(originalGids);
 		} catch (Exception e) {
 			emergencyAccessDrop();
 			return false;
 		}
 
 		try {
-			internal.setUserIds(originalUids);
+			Credentials.setUserIds(originalUids);
 		} catch (Exception e) {
 			emergencyAccessDrop();
 			return false;
 		}
 
 		try {
-			internal.setCapabilities(originalCaps);
+			Capabilities.setCapabilities(originalCaps);
 		} catch (Exception e) {
 			return false;
 		}
@@ -353,17 +355,17 @@ public class AnJaRoot {
 
 	private static void emergencyAccessDrop() {
 		try {
-			internal.setGroupIds(originalGids);
+			Credentials.setGroupIds(originalGids);
 		} catch (Exception ignored) {
 		}
 
 		try {
-			internal.setUserIds(originalUids);
+			Credentials.setUserIds(originalUids);
 		} catch (Exception ignored) {
 		}
 
 		try {
-			internal.setCapabilities(originalCaps);
+			Capabilities.setCapabilities(originalCaps);
 		} catch (Exception ignored) {
 		}
 	}

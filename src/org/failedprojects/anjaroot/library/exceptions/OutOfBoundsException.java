@@ -14,8 +14,6 @@
  */
 package org.failedprojects.anjaroot.library.exceptions;
 
-import org.failedprojects.anjaroot.library.internal.AnJaRootInternal;
-
 /**
  * Passed parameter is our of bounds.
  * 
@@ -23,9 +21,9 @@ import org.failedprojects.anjaroot.library.internal.AnJaRootInternal;
  * the bounds is passed to it. It's needed because the native library deals with
  * unsigned 32bit integers and it's parameters have to be signed 64bit integers.
  * 
- * If you see this exception and you don't use {@link AnJaRootInternal},
- * something is wrong with the provided wrappers and you should fill a
- * bugreport. Users of {@link AnJaRootInternal} need to review their code.
+ * If you see this exception and you don't use {@link AnJaRootNative}, something
+ * is wrong with the provided wrappers and you should fill a bugreport. Users of
+ * {@link AnJaRootNative} need to review their code.
  */
 public class OutOfBoundsException extends Exception {
 	private static final long serialVersionUID = -5890404777017384039L;
