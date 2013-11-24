@@ -3,8 +3,6 @@
 
     <integer name="versionCodeManifest">2</integer>
 
-    <string name="versionNameManifest">1.1.0</string>
-
     <integer-array name="version">
         <item>1</item>
         <item>1</item>

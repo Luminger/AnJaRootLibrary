@@ -14,6 +14,8 @@
  */
 package org.failedprojects.anjaroot.library.wrappers;
 
+import org.failedprojects.anjaroot.library.exceptions.LibraryNotLoadedException;
+
 import android.annotation.SuppressLint;
 import android.util.Log;
 
@@ -87,7 +89,11 @@ public class Library {
 
 	private native static int[] _getversion();
 
-	public static Version getNativeVersion() {
+	public static Version getNativeVersion() throws LibraryNotLoadedException {
+		if (!libraryLoaded) {
+			throw new LibraryNotLoadedException();
+		}
+
 		int[] version = _getversion();
 		return new Version(version[0], version[1], version[2], version[3]);
 	}
@@ -109,12 +115,13 @@ public class Library {
 			System.load("/system/lib/libanjaroot.so");
 			setCompatMode(libraryVersion);
 
+			libraryLoaded = true;
+
 			Version nativeVersion = getNativeVersion();
 			Log.v(LOGTAG,
 					String.format("Native library (%s) loaded",
 							nativeVersion.toString()));
-			libraryLoaded = true;
-		} catch (UnsatisfiedLinkError e) {
+		} catch (Exception e) {
 			Log.e(LOGTAG, "Couldn't load native library", e);
 			libraryLoaded = false;
 		}
