@@ -17,6 +17,15 @@ package org.failedprojects.anjaroot.library.wrappers;
 import org.failedprojects.anjaroot.library.exceptions.NativeException;
 
 public class Mount {
+	public class Mountpoint {
+		private String fsname;
+		private String dir;
+		private String type;
+		private String opts;
+		private int freq;
+		private int passno;
+	}
+
 	private native static void _mount(String source, String target,
 			String filesystemtype, long mountflags, String data)
 			throws NativeException;
